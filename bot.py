@@ -24,7 +24,7 @@ def get_page(group='K3140', week='')->str:
     return web_page
 
 
-def get_schedule(web_page, day)->Optional[tuple, None]:
+def get_schedule(web_page, day):
     soup = BeautifulSoup(web_page, "html5lib")
 
     # Получаем таблицу с расписанием на день недели
