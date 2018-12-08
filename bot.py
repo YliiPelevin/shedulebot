@@ -94,7 +94,7 @@ def get_tomorrow(message):
 
     if today== 5:
         bot.send_message(message.chat.id, 'Завтра воскресенье, отдохни')
-        return 
+        return
 
     if int(datetime.datetime.today().strftime('%U')) % 2 == 1:
         week = 1
@@ -175,7 +175,11 @@ def get_next_lesson(message):
     cnt = 0
     state = 0
     for i in times_lst:
-        _, time = i.split('-')
+        try:
+            _, time = i.split('-')
+        except:
+            bot.send_message(message.chat.id, 'ЦК')
+            return
         t1, t2 = time.split(':')
         time = int(t1 + t2)
         cur_time = int(str(datetime.datetime.now().hour) + str(datetime.datetime.now().minute))
