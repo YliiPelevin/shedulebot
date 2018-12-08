@@ -5,12 +5,13 @@ import time
 import datetime
 from bs4 import BeautifulSoup
 from typing import Optional
+
 bot = telebot.TeleBot(config.token)
 week_list = ['/monday', '/tuesday', '/wednesday', '/thursday', '/friday', '/saturday']
 visual_list = ['понедельник', 'вторник', 'среду', 'четверг', 'пятницу', 'субботу']
 
 
-def get_page(group='K3140', week='')->str:
+def get_page(group='K3140', week='') -> str:
     if week:
         week = str(week) + '/'
     if week == '0/':
@@ -88,33 +89,33 @@ def get_tomorrow(message):
         bot.send_message(message.chat.id, 'Данные введены неверно или не полностью.')
         return None
     _, group = message.text.split()
-	today = datetime.datetime.now().weekday()
-    if today= 6:
-        bot.send_message(message.chat.id, 'Сегодня воскресенье, отдохни')
-		return
-		
+today = datetime.datetime.now().weekday()
 
-    if int(datetime.datetime.today().strftime('%U')) % 2 == 1:
-        week = 1
-    else:
-        week = 2
-    web_page = get_page(group, str(week))
-    today = datetime.datetime.now() + datetime.timedelta(days=1)
-    tomorrow = today
-    if today.weekday() == 7:
-        tomorrow = today + datetime.timedelta(days=1)
-    tomorrow = week_list[tomorrow.weekday()]
-    schedule = get_schedule(web_page, tomorrow)
-    if not schedule:
-        bot.send_message(message.chat.id, 'Данные введены неверно или завтра у указанной группы нет занятий')
-        return None
 
-    times_lst, locations_lst, lessons_lst = schedule
-    resp = '<b>Расписание на завтра:\n\n</b>'
-    for time, location, lesson in zip(times_lst, locations_lst, lessons_lst):
-        resp += '<b>{}</b>, {}, {}\n'.format(time, location, lesson)
+if today== 6:
+    bot.send_message(message.chat.id, 'Сегодня воскресенье, отдохни')
 
-    bot.send_message(message.chat.id, resp, parse_mode='HTML')
+if int(datetime.datetime.today().strftime('%U')) % 2 == 1:
+    week = 1
+else:
+    week = 2
+web_page = get_page(group, str(week))
+today = datetime.datetime.now() + datetime.timedelta(days=1)
+tomorrow = today
+if today.weekday() == 7:
+    tomorrow = today + datetime.timedelta(days=1)
+tomorrow = week_list[tomorrow.weekday()]
+schedule = get_schedule(web_page, tomorrow)
+if not schedule:
+    bot.send_message(message.chat.id, 'Данные введены неверно или завтра у указанной группы нет занятий')
+    return None
+
+times_lst, locations_lst, lessons_lst = schedule
+resp = '<b>Расписание на завтра:\n\n</b>'
+for time, location, lesson in zip(times_lst, locations_lst, lessons_lst):
+    resp += '<b>{}</b>, {}, {}\n'.format(time, location, lesson)
+
+bot.send_message(message.chat.id, resp, parse_mode='HTML')
 
 
 @bot.message_handler(commands=['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'])
