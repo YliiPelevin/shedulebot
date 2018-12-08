@@ -89,33 +89,33 @@ def get_tomorrow(message):
         bot.send_message(message.chat.id, 'Данные введены неверно или не полностью.')
         return None
     _, group = message.text.split()
-today = datetime.datetime.now().weekday()
+    today = datetime.datetime.now().weekday()
 
 
-if today== 6:
-    bot.send_message(message.chat.id, 'Сегодня воскресенье, отдохни')
+    if today== 6:
+        bot.send_message(message.chat.id, 'Сегодня воскресенье, отдохни')
 
-if int(datetime.datetime.today().strftime('%U')) % 2 == 1:
-    week = 1
-else:
-    week = 2
-web_page = get_page(group, str(week))
-today = datetime.datetime.now() + datetime.timedelta(days=1)
-tomorrow = today
-if today.weekday() == 7:
-    tomorrow = today + datetime.timedelta(days=1)
-tomorrow = week_list[tomorrow.weekday()]
-schedule = get_schedule(web_page, tomorrow)
-if not schedule:
-    bot.send_message(message.chat.id, 'Данные введены неверно или завтра у указанной группы нет занятий')
-    return None
+    if int(datetime.datetime.today().strftime('%U')) % 2 == 1:
+        week = 1
+    else:
+        week = 2
+    web_page = get_page(group, str(week))
+    today = datetime.datetime.now() + datetime.timedelta(days=1)
+    tomorrow = today
+    if today.weekday() == 7:
+        tomorrow = today + datetime.timedelta(days=1)
+    tomorrow = week_list[tomorrow.weekday()]
+    schedule = get_schedule(web_page, tomorrow)
+    if not schedule:
+        bot.send_message(message.chat.id, 'Данные введены неверно или завтра у указанной группы нет занятий')
+        return None
 
-times_lst, locations_lst, lessons_lst = schedule
-resp = '<b>Расписание на завтра:\n\n</b>'
-for time, location, lesson in zip(times_lst, locations_lst, lessons_lst):
-    resp += '<b>{}</b>, {}, {}\n'.format(time, location, lesson)
+    times_lst, locations_lst, lessons_lst = schedule
+    resp = '<b>Расписание на завтра:\n\n</b>'
+    for time, location, lesson in zip(times_lst, locations_lst, lessons_lst):
+        resp += '<b>{}</b>, {}, {}\n'.format(time, location, lesson)
 
-bot.send_message(message.chat.id, resp, parse_mode='HTML')
+    bot.send_message(message.chat.id, resp, parse_mode='HTML')
 
 
 @bot.message_handler(commands=['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'])
