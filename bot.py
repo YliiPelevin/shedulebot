@@ -88,6 +88,12 @@ def get_tomorrow(message):
         bot.send_message(message.chat.id, 'Данные введены неверно или не полностью.')
         return None
     _, group = message.text.split()
+	today = datetime.datetime.now().weekday()
+    if today= 6:
+        bot.send_message(message.chat.id, 'Сегодня воскресенье, отдохни')
+		return
+		
+
     if int(datetime.datetime.today().strftime('%U')) % 2 == 1:
         week = 1
     else:
