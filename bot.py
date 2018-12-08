@@ -92,8 +92,9 @@ def get_tomorrow(message):
     today = datetime.datetime.now().weekday()
 
 
-    if today== 6:
-        bot.send_message(message.chat.id, 'Сегодня воскресенье, отдохни')
+    if today== 5:
+        bot.send_message(message.chat.id, 'Завтра воскресенье, отдохни')
+        return 
 
     if int(datetime.datetime.today().strftime('%U')) % 2 == 1:
         week = 1
