@@ -129,7 +129,7 @@ def get_day(message):
     web_page = get_page(group, week)
     schedule = get_schedule(web_page, day)
     if not schedule:
-        bot.send_message(message.chat.id, 'Данные введены неверно или в указанный день у группы нет занятий')
+        bot.send_message(message.chat.id, 'В указанный день у группы нет занятий')
         return None
 
     times_lst, locations_lst, lessons_lst = schedule
