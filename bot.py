@@ -108,7 +108,7 @@ def get_tomorrow(message):
     tomorrow = week_list[tomorrow.weekday()]
     schedule = get_schedule(web_page, tomorrow)
     if not schedule:
-        bot.send_message(message.chat.id, 'Данные введены неверно или завтра у указанной группы нет занятий')
+        bot.send_message(message.chat.id, 'Завтра у указанной группы нет занятий')
         return None
 
     times_lst, locations_lst, lessons_lst = schedule
